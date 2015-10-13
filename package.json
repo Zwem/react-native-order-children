@@ -1,6 +1,6 @@
 {
   "name": "react-native-order-children",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Orders the children of the component by the \"order\" prop unless otherwise defined by providing it with a prop \"by\"",
   "main": "Order.js",
   "scripts": {
@@ -16,10 +16,10 @@
   "peerDependencies": {
     "react-native": ">=0.5.0"
   },
-  "repository" :
-    { "type" : "git"
-    , "url" : "https://github.com/DashOS/react-native-order-children"
-    },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DashOS/react-native-order-children"
+  },
   "author": "Braden R. Napier",
   "license": "ISC"
 }
