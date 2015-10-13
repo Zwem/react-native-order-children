@@ -1,0 +1,21 @@
+{
+  "name": "react-native-order-children",
+  "version": "1.1.1",
+  "description": "Orders the children of the component by the \"order\" prop unless otherwise defined by providing it with a prop \"by\"",
+  "main": "Order.js",
+  "scripts": {
+    "test": "<Order direction='column'><View order={2}><Text>1</Text></View><View order={1}><Text>2</Text></View></Order>"
+  },
+  "keywords": [
+    "react-native",
+    "react-component",
+    "order",
+    "children",
+    "react"
+  ],
+  "peerDependencies": {
+    "react-native": ">=0.5.0"
+  },
+  "author": "Braden R. Napier",
+  "license": "ISC"
+}
