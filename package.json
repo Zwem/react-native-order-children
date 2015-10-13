@@ -16,6 +16,10 @@
   "peerDependencies": {
     "react-native": ">=0.5.0"
   },
+  "repository" :
+    { "type" : "git"
+    , "url" : "https://github.com/DashOS/react-native-order-children"
+    },
   "author": "Braden R. Napier",
   "license": "ISC"
 }
