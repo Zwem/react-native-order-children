@@ -12,7 +12,8 @@
 let React = require('react-native');
 
 let {
-  View
+  View,
+  AppRegistry
 } = React;
 
 var Order = React.createClass({
@@ -35,4 +36,4 @@ var Order = React.createClass({
   },
 });
 
-module.exports = Order;
+AppRegistry.registerComponent('Order', () => Order);
