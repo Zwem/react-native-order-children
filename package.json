@@ -5,7 +5,7 @@
   "main": "index.ios.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DashOS/react-native-simple-event-stream"
+    "url": "https://github.com/DashOS/react-native-order-children"
   },
   "keywords": [
     "react-native",
