@@ -1,34 +1,93 @@
-# React Native - Order Children
+# React Native - Events
 ## Overview
-  A simple React Native Component which allows you to re-order the children by a given prop.  By default it will order by the prop "order." This can also be used in conjunction with absolute positioning to give a very basic Z-Index capability to React Native.
+  While not technically only a React Native Package, it was built specifically for the need to have a very simple & lightweight method to register various parts of our React Native Application for callbacks when events were fired.  
 
-## Available Props
-
-0. **by** (default: 'order') - Allows you to define the key that each child should by ordered by.
-0. **direction** (default: 'column') - Choose 'row' or 'column' to define what direction the views should be ordered in.
-0. **style** (default: '') - Define extra styling which can be used to style the wrapper view of the children.
+## Simplicity
+  While the package is simple, it doesn't have protection built-in so it should only be used for the most basic of needs.
+  
+## API
+    
+0.  **on(eventID, listenerID, callback)**: When you want to listen for an event you can register a callback using "on" and passing the event you want to listen to, an ID for removing in the future, and a callback function.
+0.  **trigger(eventID, eventData)**: Trigger an event using the "trigger" function.
+0.  **remove(eventID, listenerID)**: Remove an ID on the given event so it won't receive callbacks anymore.
+0.  **removeAll(eventID)**: Remove all registered callbacks on a given eventID.
 
 ## Example
 
+### First Component (Listener)
+
 ```js
-var Order = require('react-native-order-children');
+var Events = require('react-native-simple-events');
 var React = require('react-native');
 
-var ExampleComponent = React.createClass({
-  render() {
-    return (
-        <Order>
-            <View order={2}>
-                <Text> 1 </Text>
-            </View>
-            <View order={1}>
-                <Text> 2 </Text>
-            </View>
-        </Order>
-    );
-  },
+let {
+  Text
+} = React;
+
+var ListenComponent = React.createClass({
+
+    componentDidMount() { Events.on('Ready', 'myID', this.onReady) },
+    
+    componentWillUnmount() { Events.rm('Ready', 'myID') },
+    
+    onReady: (data) => { console.log('--- onReady Triggered ---'); console.log(data) },
+    
+    render() { return <Text> Listener Component 1 </Text> },
 
 });
 
-module.exports = ExampleComponent;
+module.exports = ListenComponent;
+```
+
+### Second Component (Trigger)
+
+```js
+var Events = require('react-native-simple-events');
+var React = require('react-native');
+let {
+  TouchableOpacity
+} = React;
+var TriggerComponent = React.createClass({
+
+    triggerEvent() { Events.trigger('Ready', {my: 'data'}) },
+    
+    render() {
+        return <TouchableOpacity onPress={() => this.triggerEvent()}> Press Me To Emit Event! </TouchableOpacity>;
+    },
+
+});
+
+module.exports = TriggerComponent;
+```
+
+## Source
+
+Since the source is so short, I figured I would add it here for your own review
+
+```js
+var Callbacks = {};
+
+var Events = {
+    on: (at, id, callback) => { return Events.listen(at, id, callback) },
+    listen: (at, id, callback) => {
+        if (at == '') { return false }
+        if (at in Callbacks) {
+            Callbacks[at][id] = callback;
+        } else {
+            Callbacks[at] = {};
+            Callbacks[at][id] = callback;
+        }
+        return id;
+    },
+    t: (at, data) => { return Events.trigger(at, data) },
+    trigger: (at, data) => {
+        data = data || ''; var obj = Callbacks[at];
+        for (var prop in obj) { if (obj.hasOwnProperty(prop)) { obj[prop](data) } }
+    },
+    rm: (at, id) => { return Events.remove(at, id) },
+    remove: (at, id) => { delete Callbacks[at][id] },
+    removeAll: (at) => { delete Callbacks[at] }
+};
+
+module.exports = Events;
 ```
